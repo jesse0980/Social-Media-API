@@ -21,7 +21,7 @@ public class SocialMediaService implements SocialMedia {
 
     @Override
     public Account registerAccount(String username, String password) {
-        if (username.isBlank() || password.length() < 4 || this.userExists(username)) {
+        if (username.isBlank() || password.length() < 4 || accountDAO.userExistsByUsername(username)) {
             return null; // Registration unsuccessful
         }
         Account account = new Account(username, password);

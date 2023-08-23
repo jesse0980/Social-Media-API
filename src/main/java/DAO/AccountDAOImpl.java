@@ -12,6 +12,25 @@ public class AccountDAOImpl implements AccountDAO {
     public AccountDAOImpl(Connection connection) {
         this.connection = connection;
     }
+    
+
+    @Override
+    public boolean userExistsByUsername(String username) {
+        String sql = "SELECT COUNT(*) FROM account WHERE username = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, username);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int count = resultSet.getInt(1);
+                    return count > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }    
+
 
     @Override
     public Account registerAccount(Account account) {

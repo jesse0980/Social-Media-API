@@ -64,31 +64,39 @@ public class SocialMediaController {
         
         try {
             Account account = objectMapper.readValue(requestBody, Account.class);
-            
             // Check if the username is not blank and the password length is at least 4 characters
             // Check if an account with the given username already exists
     
             Account registeredAccount = socialMediaService.registerAccount(account.getUsername(), account.getPassword());
             if (registeredAccount != null) {
+                context.status(200);
                 context.json(registeredAccount);
             } else {
-                context.status(400).result("Registration failed.");
+                context.status(400).result("");
             }
         } catch (IOException e) {
-            context.status(400).result("Invalid JSON format.");
+            context.status(400).result("");
         }
-    }
     }
 
     private void loginAccountHandler(Context context) {
-        String username = context.formParam("username");
-        String password = context.formParam("password");
-
-        Account account = socialMediaService.loginAccount(username, password);
-        if (account != null) {
-            context.json(account);
-        } else {
-            context.status(401).result("Login failed.");
+        String requestBody = context.body();
+        ObjectMapper objectMapper = new ObjectMapper();
+        
+        try {
+            Account account = objectMapper.readValue(requestBody, Account.class);
+            // Check if the username is not blank and the password length is at least 4 characters
+            // Check if an account with the given username already exists
+    
+            Account registeredAccount = socialMediaService.loginAccount(account.getUsername(), account.getPassword());
+            if (registeredAccount != null) {
+                context.status(200);
+                context.json(registeredAccount);
+            } else {
+                context.status(401).result("");
+            }
+        } catch (IOException e) {
+            context.status(401).result("");
         }
     }
 
