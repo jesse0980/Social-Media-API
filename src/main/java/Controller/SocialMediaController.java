@@ -65,7 +65,7 @@ public class SocialMediaController {
         try {
             Account account = objectMapper.readValue(requestBody, Account.class);
             // Check if the username is not blank and the password length is at least 4 characters
-            // Check if an account with the given username already exists
+            // Check if an acco1unt with the given username already exists
     
             Account registeredAccount = socialMediaService.registerAccount(account.getUsername(), account.getPassword());
             if (registeredAccount != null) {
